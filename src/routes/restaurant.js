@@ -1,8 +1,6 @@
 require('dotenv').config()
 
 const router = require('express').Router()
-const jwt = require('jsonwebtoken')
-const bcrypt = require('bcryptjs')
 const mysql = require('../dbconfig')
 const {auth} = require('../middleware')
 const {detail,add,dlt,edit}= require('../model/restaurant')

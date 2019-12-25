@@ -8,6 +8,7 @@ const {auth} = require('./src/middleware')
 const user = require('./src/routes/user')
 const restaurant = require('./src/routes/restaurant')
 const item = require('./src/routes/item')
+const cart = require('./src/routes/cart')
 
 const app = express()
 
@@ -18,6 +19,7 @@ app.use(bodyParser.json())
 app.use('/user',user)
 app.use('/restaurant',restaurant)
 app.use('/item',item)
+app.use('/cart',cart)
 
 const port = process.env.APP_PORT
 
