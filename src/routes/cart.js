@@ -2,12 +2,12 @@ require('dotenv').config()
 
 const router = require('express').Router()
 const mysql = require('../dbconfig')
-const {auth} = require('../middleware')
+const {auth, client} = require('../middleware')
 const {add,edit,detail,dlt} = require('../model/cart')
 
 
 /**TAMBAH CART */
-router.post('/',auth,(req,res)=>{
+router.post('/',auth,client,(req,res)=>{
     const {item_id,user_id,restaurant_id} =  req.body
     const created_on = new Date()
     const updated_on = new Date()
@@ -21,7 +21,7 @@ router.post('/',auth,(req,res)=>{
 })
 
 /**EDIT CART */
-router.put('/:id',auth,(req,res)=>{
+router.put('/:id',auth,client,(req,res)=>{
     const {id} = req.params
     const {item_id,user_id,restaurant_id} = req.body
     const updated_on = new Date()
@@ -33,7 +33,7 @@ router.put('/:id',auth,(req,res)=>{
 })
 
 /**DETAIL CART */
-router.get('/:id',auth,(req,res)=>{
+router.get('/:id',auth,client,(req,res)=>{
     const {id} = req.params
     mysql.execute(detail,[id],(err,result,field)=>{
         res.send({succes:true,data:result})
@@ -42,12 +42,14 @@ router.get('/:id',auth,(req,res)=>{
 
 
 /**DELETE CART */
-router.delete('/:id',auth,(req,res)=>{
+router.delete('/:id',auth,client,(req,res)=>{
     const {id} = req.params
     mysql.execute(dlt,[id],(err,result,field)=>{
         res.send({succes:true,data:result})
     })
 })
+
+
 
 
 module.exports = router

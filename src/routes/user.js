@@ -4,7 +4,7 @@ const router = require('express').Router()
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const mysql = require('../dbconfig')
-const {auth} = require('../middleware')
+const {auth, admin,} = require('../middleware')
 const {login,detail,add,dlt,edit}= require('../model/user')
 
 
@@ -16,10 +16,17 @@ router.post('/login',(req,res)=>{
         if(result.length>0){
             if(bcrypt.compareSync(password,result[0].password)){
             const auth = jwt.sign({username},process.env.APP_KEY)
+            const token = auth
+            const is_revoked = 0
+            const created_on = new Date()
+            const updated_on = new Date()
+            const revoked = `INSERT INTO revoked_token (token,is_revoked,created_on,updated_on) VALUES (?,?,?,?)`
+            mysql.execute(revoked,[token,is_revoked,created_on,updated_on], (err,result,field)=>{
             res.send({
                 succes: true,
                 auth
             })
+        })
             }else{
                 res.send({
                     succes:false,
@@ -35,8 +42,21 @@ router.post('/login',(req,res)=>{
     })
 })
 
+
+/**Log Out */
+router.get('/logout',(req,res)=>{
+    const {username} = req.body
+
+    mysql.execute(logout,[username],(err,result,field)=>{
+        if(result.length=0){
+            res.send({succes: true, msg: "Log Out Succes"})
+        }
+    })
+})
+
+
 /*tambah data*/
-router.post('/',auth,(req,res)=>{
+router.post('/',auth,admin,(req,res)=>{
     const {name, username, password, role_id} = req.body
     const enc_pass = bcrypt.hashSync(password)
     const created_on = new Date()
@@ -51,7 +71,7 @@ router.post('/',auth,(req,res)=>{
 })
 
 /* mengambil data */
-router.get('/:id',auth,(req,res)=>{
+router.get('/:id',auth,admin,(req,res)=>{
     const {id} = req.params
 
         mysql.execute(detail,[id], (err, result,field)=>{
@@ -60,7 +80,7 @@ router.get('/:id',auth,(req,res)=>{
 })
 
 /** delete user */
-router.delete('/:id',auth,(req,res)=>{
+router.delete('/:id',auth,admin,(req,res)=>{
     const {id} = req.params
     mysql.execute(dlt,[id], (err,result,field)=>{
         res.send({succes:true,data:result})
@@ -69,7 +89,7 @@ router.delete('/:id',auth,(req,res)=>{
 })
 
 /**edit user */
-router.put('/:id',auth,(req,res)=>{
+router.put('/:id',auth,admin,(req,res)=>{
     const {id} = req.params
     const{name,username,password,role_id} = req.body
     const enc_pass = bcrypt.hashSync(password)

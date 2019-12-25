@@ -2,11 +2,11 @@ require('dotenv').config()
 
 const router = require('express').Router()
 const mysql = require('../dbconfig')
-const {auth} = require('../middleware')
+const {auth, admin} = require('../middleware')
 const {detail,add,dlt,edit}= require('../model/restaurant')
 
 /*tambah data*/
-router.post('/',auth,(req,res)=>{
+router.post('/',auth,admin,(req,res)=>{
     const {name,description,image,longitude,latitude,item_id, user_id} = req.body
     const created_on = new Date()
     const updated_on = new Date()
@@ -21,7 +21,7 @@ router.post('/',auth,(req,res)=>{
 })
 
 /* mengambil data */
-router.get('/:id',auth,(req,res)=>{
+router.get('/:id',auth,admin,(req,res)=>{
     const {id} = req.params
         mysql.execute(detail,[id], (err, result,field)=>{
             res.send({succes:true,data:result[0]})
@@ -29,7 +29,7 @@ router.get('/:id',auth,(req,res)=>{
 })
 
 /** delete restaurant */
-router.delete('/:id',auth,(req,res)=>{
+router.delete('/:id',auth,admin,(req,res)=>{
     const {id} = req.params
     mysql.execute(dlt,[id], (err,result,field)=>{
         res.send({succes:true,data:result})
@@ -37,7 +37,7 @@ router.delete('/:id',auth,(req,res)=>{
 })
 
 /**edit restaurant */
-router.put('/:id',auth,(req,res)=>{
+router.put('/:id',auth,admin,(req,res)=>{
     const {id} = req.params
     const{name,description,image,longitude,latitude,item_id, user_id} = req.body
     const updated_on = new Date()

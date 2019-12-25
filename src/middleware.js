@@ -18,4 +18,55 @@ const auth = (req,res,next)=>{
 
 }
 
-module.exports = {auth}
+const all = (req,res,next)=>{
+    if(
+        req.headers['roles'] === '1' || req.headers['roles'] === '2' || req.headers['roles'] === '3'
+    ){
+        next()
+    }else{
+        res.send({succes:false, msg: 'You are not be able to access this!'})
+    }
+}
+
+const admin = (req,res,next)=>{
+    if(
+        req.headers['roles'] === '1'
+    ){
+        next()
+    }else{
+        res.send({succes:false, msg: 'You are not be able to access this!'})
+    }
+}
+
+const restaurant = (req,res,next)=>{
+    if(
+        req.headers['roles'] === '2'
+    ){
+        next()
+    }else{
+        res.send({succes:false, msg: 'You are not be able to access this!'})
+    }
+}
+
+const client = (req,res,next)=>{
+    if(
+        req.headers['roles'] === '3'
+    ){
+        next()
+    }else{
+        res.send({succes:false, msg: 'You are not be able to access this!'})   
+    }
+}
+
+const admin_restaurant = (req,res,next)=>{
+    if(
+        req.headers['roles'] === '1' || req.headers['roles'] === '2'
+    ){
+        next()
+    }else{
+        res.send({succes:false, msg: 'You are not be able to access this!'})
+    }
+}
+
+
+module.exports = {auth, all, admin, restaurant, admin_restaurant, client}
