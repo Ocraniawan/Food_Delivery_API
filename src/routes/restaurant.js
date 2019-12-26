@@ -7,31 +7,32 @@ const {detail,add,dlt,edit}= require('../model/restaurant')
 
 /**Upload Foto */
 const multer = require('multer')
-const path = require('path')
-
-const storage = multer.diskStorage({
-    destination: function (req, file, callback) {
-        callback(null, '../images/restaurant')
+const storage = multer.diskStorage({destination: function(req,file,cb){
+    cb(null, './src/images/restaurant')
     },
-    filename: function (req, file, callback) {
-        callback(null, file.fieldname + Date.now() + path.extname(file.originalname))
+    filename: function(req,file,cb){
+        cb(null, file.originalname)
     }
 })
-
-
+const fileFilter = (req,file,cb)=> {
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png'){
+        cb(null, true)
+    }else{
+        cb(null, false)
+    }
+}
+const upload = multer({storage:storage, fileFilter:fileFilter})
 
 /*tambah data*/
-router.post('/',auth,admin,(req,res)=>{
+router.post('/',auth,admin,upload.single('image'),(req,res)=>{
+    const image = (req.file.originalname)
     const {name,description,longitude,latitude,item_id, user_id} = req.body
-    const image = multer({ storage: storage }).single('image')
     const created_on = new Date()
     const updated_on = new Date()
 
-    mysql.execute(
-        add, [name,description,image,longitude,latitude,item_id,user_id,created_on,updated_on],
+    mysql.execute(add, [name,description,image,longitude,latitude,item_id,user_id,created_on,updated_on],
         (err,result,rows,field)=>{
-            console.log(err)
-            res.json({rows})
+            // console.log(err)
             res.send({succes:true,data:result})
         }
     )
@@ -55,12 +56,12 @@ router.delete('/:id',auth,admin,(req,res)=>{
 })
 
 /**edit restaurant */
-router.put('/:id',auth,admin,(req,res)=>{
+router.put('/:id',auth,admin,upload.single('image'),(req,res)=>{
     const {id} = req.params
-    const{name,description,image,longitude,latitude,item_id, user_id} = req.body
+    const image = (req.file.originalname)
+    const{name,description,longitude,latitude,item_id, user_id} = req.body
     const updated_on = new Date()
-    mysql.execute(
-        edit, [name,description,image,longitude,latitude,item_id,user_id,updated_on,id],(err,result,field)=>{
+    mysql.execute(edit, [name,description,image,longitude,latitude,item_id,user_id,updated_on,id],(err,result,field)=>{
             res.send({succes:true,data:result})
             // console.log(err)
         }
