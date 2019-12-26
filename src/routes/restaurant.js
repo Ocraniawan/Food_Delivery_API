@@ -26,11 +26,11 @@ const upload = multer({storage:storage, fileFilter:fileFilter})
 /*tambah data*/
 router.post('/',auth,admin,upload.single('image'),(req,res)=>{
     const image = (req.file.originalname)
-    const {name,description,longitude,latitude,item_id, user_id} = req.body
+    const {name,description,longitude,latitude, user_id} = req.body
     const created_on = new Date()
     const updated_on = new Date()
 
-    mysql.execute(add, [name,description,image,longitude,latitude,item_id,user_id,created_on,updated_on],
+    mysql.execute(add, [name,description,image,longitude,latitude,user_id,created_on,updated_on],
         (err,result,rows,field)=>{
             // console.log(err)
             res.send({succes:true,data:result})
@@ -59,9 +59,9 @@ router.delete('/:id',auth,admin,(req,res)=>{
 router.put('/:id',auth,admin,upload.single('image'),(req,res)=>{
     const {id} = req.params
     const image = (req.file.originalname)
-    const{name,description,longitude,latitude,item_id, user_id} = req.body
+    const{name,description,longitude,latitude, user_id} = req.body
     const updated_on = new Date()
-    mysql.execute(edit, [name,description,image,longitude,latitude,item_id,user_id,updated_on,id],(err,result,field)=>{
+    mysql.execute(edit, [name,description,image,longitude,latitude,user_id,updated_on,id],(err,result,field)=>{
             res.send({succes:true,data:result})
             // console.log(err)
         }

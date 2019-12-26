@@ -20,12 +20,12 @@ const upload = multer ({storage:storage})
 /*tambah item*/
 router.post('/',auth,restaurant,upload.single('image'),(req,res)=>{
     const image = (req.file.originalname)
-    const {name,categories_id,price,description} = req.body
+    const {name,categories_id,restaurant_id,price,description} = req.body
     const created_on = new Date()
     const updated_on = new Date()
 
     mysql.execute(
-        add, [name,categories_id,price,description,image,created_on,updated_on],
+        add, [name,categories_id,restaurant_id,price,description,image,created_on,updated_on],
         (err,result,field)=>{
             console.log(err)
             res.send({succes:true,data:result})
@@ -53,14 +53,15 @@ router.delete('/:id',auth,restaurant,(req,res)=>{
 router.put('/:id',auth,restaurant,upload.single('image'),(req,res)=>{
     const {id} = req.params
     const image = (req.file.originalname)
-    const{name,categories_id,price,description} = req.body
+    const{name,categories_id,restaurant_id,price,description} = req.body
     const updated_on = new Date()
     mysql.execute(
-        edit, [name,categories_id,price,description,image,updated_on,id],(err,result,field)=>{
+        edit, [name,categories_id,restaurant_id,price,description,image,updated_on,id],(err,result,field)=>{
             res.send({succes:true,data:result})
-            // console.log(err)
+            console.log(err)
         }
     ) 
 })
+
 
 module.exports = router
