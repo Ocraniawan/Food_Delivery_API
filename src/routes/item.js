@@ -33,7 +33,7 @@ router.post('/',auth,restaurant,upload.single('image'),(req,res)=>{
     )
 })
 
-/* mengambil item */
+/* detail item */
 router.get('/:id',auth,restaurant,(req,res)=>{
     const {id} = req.params
         mysql.execute(detail,[id], (err, result,field)=>{
