@@ -5,9 +5,22 @@ const mysql = require('../dbconfig')
 const {auth, restaurant} = require('../middleware')
 const {detail,add,dlt,edit}= require('../model/item')
 
+
+const multer = require('multer')
+const storage = multer.diskStorage({destination: function(req,file,cb){
+    cb(null, './src/images/item' )
+    },
+    filename: function(req,file,cb){
+        cb(null, file.originalname)
+    }
+})
+
+const upload = multer ({storage:storage})
+
 /*tambah item*/
-router.post('/',auth,restaurant,(req,res)=>{
-    const {name,categories_id,price,description,image} = req.body
+router.post('/',auth,restaurant,upload.single('image'),(req,res)=>{
+    const image = (req.file.originalname)
+    const {name,categories_id,price,description} = req.body
     const created_on = new Date()
     const updated_on = new Date()
 
@@ -37,9 +50,10 @@ router.delete('/:id',auth,restaurant,(req,res)=>{
 })
 
 /**edit item */
-router.put('/:id',auth,restaurant,(req,res)=>{
+router.put('/:id',auth,restaurant,upload.single('image'),(req,res)=>{
     const {id} = req.params
-    const{name,categories_id,price,description,image} = req.body
+    const image = (req.file.originalname)
+    const{name,categories_id,price,description} = req.body
     const updated_on = new Date()
     mysql.execute(
         edit, [name,categories_id,price,description,image,updated_on,id],(err,result,field)=>{
