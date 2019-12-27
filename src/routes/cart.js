@@ -21,11 +21,11 @@ router.post('/',auth,client,(req,res)=>{
 })
 
 /**EDIT CART */
-router.put('/:id',auth,client,(req,res)=>{
-    const {id} = req.params
+router.put('/:id_carts',auth,client,(req,res)=>{
+    const {id_carts} = req.params
     const {item_id,user_id,restaurant_id} = req.body
     const updated_on = new Date()
-    mysql.execute(edit,[item_id,user_id,restaurant_id,updated_on,id],
+    mysql.execute(edit,[item_id,user_id,restaurant_id,updated_on,id_carts],
         (err,result,field)=>{
             res.send({succes:true,data:result})
         }
@@ -33,18 +33,19 @@ router.put('/:id',auth,client,(req,res)=>{
 })
 
 /**DETAIL CART */
-router.get('/:id',auth,client,(req,res)=>{
-    const {id} = req.params
-    mysql.execute(detail,[id],(err,result,field)=>{
+router.get('/:id_carts',auth,client,(req,res)=>{
+    const {id_carts} = req.params
+    mysql.execute(detail,[id_carts],(err,result,field)=>{
         res.send({succes:true,data:result})
+        console.log(err)
     })
 })
 
 
 /**DELETE CART */
 router.delete('/:id',auth,client,(req,res)=>{
-    const {id} = req.params
-    mysql.execute(dlt,[id],(err,result,field)=>{
+    const {id_carts} = req.params
+    mysql.execute(dlt,[id_carts],(err,result,field)=>{
         res.send({succes:true,data:result})
     })
 })

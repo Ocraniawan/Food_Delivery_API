@@ -26,11 +26,11 @@ const upload = multer({storage:storage, fileFilter:fileFilter})
 /*tambah data*/
 router.post('/',auth,admin,upload.single('image'),(req,res)=>{
     const image = (req.file.originalname)
-    const {name,description,longitude,latitude, user_id} = req.body
+    const {restaurant_name,description,longitude,latitude, user_id} = req.body
     const created_on = new Date()
     const updated_on = new Date()
 
-    mysql.execute(add, [name,description,image,longitude,latitude,user_id,created_on,updated_on],
+    mysql.execute(add, [restaurant_name,description,image,longitude,latitude,user_id,created_on,updated_on],
         (err,result,rows,field)=>{
             // console.log(err)
             res.send({succes:true,data:result})
@@ -40,30 +40,30 @@ router.post('/',auth,admin,upload.single('image'),(req,res)=>{
 
 
 /* mengambil data */
-router.get('/:id',auth,admin,(req,res)=>{
-    const {id} = req.params
-        mysql.execute(detail,[id], (err, result,field)=>{
+router.get('/:id_restaurant',auth,admin,(req,res)=>{
+    const {id_restaurant} = req.params
+        mysql.execute(detail,[id_restaurant], (err, result,field)=>{
             res.send({succes:true,data:result[0]})
         })
 })
 
 /** delete restaurant */
-router.delete('/:id',auth,admin,(req,res)=>{
+router.delete('/:id_restaurant',auth,admin,(req,res)=>{
     const {id} = req.params
-    mysql.execute(dlt,[id], (err,result,field)=>{
+    mysql.execute(dlt,[id_restaurant], (err,result,field)=>{
         res.send({succes:true,data:result})
     })
 })
 
 /**edit restaurant */
-router.put('/:id',auth,admin,upload.single('image'),(req,res)=>{
-    const {id} = req.params
+router.put('/:id_restaurant',auth,admin,upload.single('image'),(req,res)=>{
+    const {id_restaurant} = req.params
     const image = (req.file.originalname)
-    const{name,description,longitude,latitude, user_id} = req.body
+    const{restaurant_name,description,longitude,latitude, user_id} = req.body
     const updated_on = new Date()
-    mysql.execute(edit, [name,description,image,longitude,latitude,user_id,updated_on,id],(err,result,field)=>{
+    mysql.execute(edit, [restaurant_name,description,image,longitude,latitude,user_id,updated_on,id_restaurant],(err,result,field)=>{
             res.send({succes:true,data:result})
-            // console.log(err)
+            console.log(err)
         }
     ) 
 })
