@@ -14,13 +14,13 @@ router.get('/',(req,res)=>{
             res.send({succes:true, data:result})
         })
     }else if(price){
-        const sql = `SELECT * FROM item WHERE price >= '%${price}'`
+        const sql = `SELECT * FROM item WHERE price = '${price}'`
         mysql.execute(sql,[],(err,result,field)=>{
             res.send({succes:true, data:result})
             console.log(err)
         })
     }else if(rating){
-        const sql = `SELECT * FROM item WHERE rating >= '%${rating}%'`
+        const sql = `SELECT * FROM item WHERE rating >= '${rating}'`
         mysql.execute(sql,[],(err,result,field)=>{
             res.send({succes:true, data:result})
         })
@@ -35,7 +35,7 @@ router.get('/',(req,res)=>{
 router.get('/sortasc',(req,res)=>{
     const {name,rating,price,date_update} = req.query
     if(name){
-        const sql = `SELECT item.id_item, item.item_name, item.price, item.description, restaurant.restaurant_name, categories.categories_name FROM item 
+        const sql = `SELECT item.item_name, item.id_item,  item.price, item.rating, item.description, restaurant.restaurant_name, categories.categories_name FROM item 
         INNER JOIN restaurant ON item.restaurant_id = restaurant.id_restaurant
         INNER JOIN categories ON item.categories_id = categories.id_categories        
         ORDER BY item_name ASC`
@@ -44,7 +44,7 @@ router.get('/sortasc',(req,res)=>{
             console.log(err)
         })
     }else if(rating){
-        const sql = `SELECT item.id_item, item.price, item.item_name, item.description, restaurant.restaurant_name, categories.categories_name FROM item 
+        const sql = `SELECT item.rating, item.id_item, item.price, item.item_name, item.description, restaurant.restaurant_name, categories.categories_name FROM item 
         INNER JOIN restaurant ON item.restaurant_id = restaurant.id_restaurant
         INNER JOIN categories ON item.categories_id = categories.id_categories  
         ORDER BY rating ASC`
@@ -52,10 +52,18 @@ router.get('/sortasc',(req,res)=>{
             res.send({succes:true, data:result})
         })
     }else if(price){
-        const sql = `SELECT item.id_item, item.price, item.item_name, item.description, restaurant.restaurant_name, categories.categories_name FROM item 
+        const sql = `SELECT item.price, item.id_item, item.item_name, item.rating, item.description, restaurant.restaurant_name, categories.categories_name FROM item 
         INNER JOIN restaurant ON item.restaurant_id = restaurant.id_restaurant
         INNER JOIN categories ON item.categories_id = categories.id_categories 
         ORDER BY price ASC`
+        mysql.execute(sql,[],(err,result,field)=>{
+            res.send({succes:true, data:result})
+        })
+    }else if(date_update){
+        const sql = `SELECT item.updated_on, item.id_item, item.price, item.item_name, item.rating, item.description, restaurant.restaurant_name, categories.categories_name FROM item 
+        INNER JOIN restaurant ON item.restaurant_id = restaurant.id_restaurant
+        INNER JOIN categories ON item.categories_id = categories.id_categories 
+        ORDER BY updated_on ASC`
         mysql.execute(sql,[],(err,result,field)=>{
             res.send({succes:true, data:result})
         })
@@ -71,7 +79,7 @@ router.get('/sortasc',(req,res)=>{
 router.get('/sortdesc',(req,res)=>{
     const {name,rating,price,date_update} = req.query
     if(name){
-        const sql = `SELECT item.id_item, item.item_name, item.price, item.description, restaurant.restaurant_name, categories.categories_name FROM item 
+        const sql = `SELECT item.item_name, item.id_item, item.price, item.rating, item.description, restaurant.restaurant_name, categories.categories_name FROM item 
         INNER JOIN restaurant ON item.restaurant_id = restaurant.id_restaurant
         INNER JOIN categories ON item.categories_id = categories.id_categories        
         ORDER BY item_name DESC`
@@ -80,7 +88,7 @@ router.get('/sortdesc',(req,res)=>{
             console.log(err)
         })
     }else if(rating){
-        const sql = `SELECT item.id_item, item.price, item.item_name, item.description, restaurant.restaurant_name, categories.categories_name FROM item 
+        const sql = `SELECT item.rating, item.id_item, item.price, item.item_name, item.description, restaurant.restaurant_name, categories.categories_name FROM item 
         INNER JOIN restaurant ON item.restaurant_id = restaurant.id_restaurant
         INNER JOIN categories ON item.categories_id = categories.id_categories  
         ORDER BY rating DESC`
@@ -88,10 +96,18 @@ router.get('/sortdesc',(req,res)=>{
             res.send({succes:true, data:result})
         })
     }else if(price){
-        const sql = `SELECT item.id_item, item.price, item.item_name, item.description, restaurant.restaurant_name, categories.categories_name FROM item 
+        const sql = `SELECT  item.price, item.id_item, item.item_name, item.rating, item.description, restaurant.restaurant_name, categories.categories_name FROM item 
         INNER JOIN restaurant ON item.restaurant_id = restaurant.id_restaurant
         INNER JOIN categories ON item.categories_id = categories.id_categories 
         ORDER BY price DESC`
+        mysql.execute(sql,[],(err,result,field)=>{
+            res.send({succes:true, data:result})
+        })
+    }else if(date_update){
+        const sql = `SELECT item.updated_on, item.id_item, item.price, item.item_name, item.rating, item.description, restaurant.restaurant_name, categories.categories_name FROM item 
+        INNER JOIN restaurant ON item.restaurant_id = restaurant.id_restaurant
+        INNER JOIN categories ON item.categories_id = categories.id_categories 
+        ORDER BY updated_on DESC`
         mysql.execute(sql,[],(err,result,field)=>{
             res.send({succes:true, data:result})
         })
@@ -108,7 +124,7 @@ router.get('/page', (req,res)=>{
     const {page, limits} = req.query
     if (page == 1){
         const initial = page - 1
-        const sql = `SELECT item.id_item, item.item_name, item.price, item.description, restaurant.restaurant_name, categories.categories_name, item.image FROM item 
+        const sql = `SELECT item.id_item, item.item_name, item.price, item.rating, item.description, restaurant.restaurant_name, categories.categories_name, item.image FROM item 
         INNER JOIN restaurant ON item.restaurant_id = restaurant.id_restaurant
         INNER JOIN categories ON item.categories_id = categories.id_categories        
         ORDER BY item_name ASC LIMIT ${initial}, ${limits}`
@@ -118,7 +134,7 @@ router.get('/page', (req,res)=>{
     })
     }else if (page >= 2){
         const initial = page * limits - limits
-        const sql =  `SELECT item.id_item, item.item_name, item.price, item.description, restaurant.restaurant_name, categories.categories_name FROM item 
+        const sql =  `SELECT item.id_item, item.item_name, item.price, item.rating, item.description, restaurant.restaurant_name, categories.categories_name FROM item 
         INNER JOIN restaurant ON item.restaurant_id = restaurant.id_restaurant
         INNER JOIN categories ON item.categories_id = categories.id_categories        
         ORDER BY item_name ASC LIMIT ${initial}, ${limits}`

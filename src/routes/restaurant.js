@@ -39,7 +39,7 @@ router.post('/',auth,admin,upload.single('image'),(req,res)=>{
 })
 
 
-/* mengambil data */
+/* detail data */
 router.get('/:id_restaurant',auth,admin,(req,res)=>{
     const {id_restaurant} = req.params
         mysql.execute(detail,[id_restaurant], (err, result,field)=>{

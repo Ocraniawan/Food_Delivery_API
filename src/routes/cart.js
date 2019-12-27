@@ -36,7 +36,7 @@ router.put('/:id_carts',auth,client,(req,res)=>{
 router.get('/:id_carts',auth,client,(req,res)=>{
     const {id_carts} = req.params
     mysql.execute(detail,[id_carts],(err,result,field)=>{
-        res.send({succes:true,data:result})
+        res.send({succes:true,data:result[0]})
         console.log(err)
     })
 })

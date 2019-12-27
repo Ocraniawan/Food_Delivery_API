@@ -15,16 +15,16 @@ router.post('/',auth,client,(req,res)=>{
             res.send(err)
         }else{
             const avgrate = 'SELECT AVG(rating) AS rate FROM valuation WHERE item_id=?'
-            mysql.execute(avgrate,[item_id],(err0,result0,field0)=>{
-             if (err0) {
-                 res.send({data:err0, msg: 'Error 1'})
+            mysql.execute(avgrate,[item_id],(err1,result1)=>{
+             if (err1) {
+                 res.send({data:err1, msg: 'Error Average Rating'})
              }else{
                  const ratingavg = 'UPDATE item SET rating=? WHERE id_item=? '
-                 mysql.execute(ratingavg,[result0[0].rate, item_id],(err2, res2, field2)=>{
+                 mysql.execute(ratingavg,[result1[0].rate, item_id],(err2, res2, field2)=>{
                      if (err) {
-                         res.send({data:err2, msg: 'error 2'})
+                         res.send({data:err2, msg: 'Error Update Rating'})
                      }else{
-                        res.send({data:result0[0].rate, msg: 'Berhasill'})  
+                        res.send({data:result1[0].rate, msg: 'Update Rating Success'})  
                      }
                  })
         
@@ -32,15 +32,26 @@ router.post('/',auth,client,(req,res)=>{
         }
 
     ) }
-    })
+    // res.send({success:true, data:result})
+
+})
 })
 
 
+// router.get('/:id',auth,(req,res)=>{
+//     const {id} = req.params
+
+//     mysql.execute(detail,[id],(err,result,field)=>{
+//         res.send({succes:true,data:result[0]})
+//         console.log(err)
+//     })
+// })
+
 router.get('/:id',auth,(req,res)=>{
     const {id} = req.params
-
-    mysql.execute(detail, [id],(err,result,field)=>{
+    mysql.execute(detail,[id],(err,result,field)=>{
         res.send({succes:true,data:result[0]})
+        console.log(err)
     })
 })
 
