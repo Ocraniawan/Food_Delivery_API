@@ -103,4 +103,31 @@ router.get('/sortdesc',(req,res)=>{
 })
 
 
+/**PAGINATION */
+router.get('/page', (req,res)=>{
+    const {page, limits} = req.query
+    if (page == 1){
+        const initial = page - 1
+        const sql = `SELECT item.id_item, item.item_name, item.price, item.description, restaurant.restaurant_name, categories.categories_name, item.image FROM item 
+        INNER JOIN restaurant ON item.restaurant_id = restaurant.id_restaurant
+        INNER JOIN categories ON item.categories_id = categories.id_categories        
+        ORDER BY item_name ASC LIMIT ${initial}, ${limits}`
+    mysql.execute(sql, [], (err,result, field)=>{
+        res.send(result)
+        console.log(err)
+    })
+    }else if (page >= 2){
+        const initial = page * limits - limits
+        const sql =  `SELECT item.id_item, item.item_name, item.price, item.description, restaurant.restaurant_name, categories.categories_name FROM item 
+        INNER JOIN restaurant ON item.restaurant_id = restaurant.id_restaurant
+        INNER JOIN categories ON item.categories_id = categories.id_categories        
+        ORDER BY item_name ASC LIMIT ${initial}, ${limits}`
+    mysql.execute(sql, [], (err,result, field)=>{
+        res.send(result)
+    })
+    }
+})
+
+
+
 module.exports = router

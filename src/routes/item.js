@@ -63,11 +63,4 @@ router.put('/:id_item',auth,restaurant,upload.single('image'),(req,res)=>{
     ) 
 })
 
-// /**SEARCH */
-// router.get('/'.(req,res)=>{
-//     const {item_name, price, rating} = req.query
-
-// })
-
-
 module.exports = router

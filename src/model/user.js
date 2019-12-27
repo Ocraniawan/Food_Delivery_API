@@ -4,4 +4,5 @@ const add = 'INSERT INTO user (name,username,password,role_id,created_on,updated
 const dlt = 'DELETE FROM user WHERE id=?'
 const edit = 'UPDATE user SET name=?, username=?, password=?, role_id=?, updated_on=? WHERE id=?'
 
+
 module.exports = {login,detail,add,dlt,edit}
