@@ -11,8 +11,27 @@ router.post('/',auth,client,(req,res)=>{
     const updated_on = new Date()
 
     mysql.execute(add, [rating,review,user_id,item_id,cart_id,created_on,updated_on],(err,result,field)=>{
-        res.send({succes:true, data:result})
-        console.log(err)
+        if (err) {
+            res.send(err)
+        }else{
+            const avgrate = 'SELECT AVG(rating) AS rate FROM valuation WHERE item_id=?'
+            mysql.execute(avgrate,[item_id],(err0,result0,field0)=>{
+             if (err0) {
+                 res.send({data:err0, msg: 'Error 1'})
+             }else{
+                 const ratingavg = 'UPDATE item SET rating=? WHERE id_item=? '
+                 mysql.execute(ratingavg,[result0[0].rate, item_id],(err2, res2, field2)=>{
+                     if (err) {
+                         res.send({data:err2, msg: 'error 2'})
+                     }else{
+                        res.send({data:result0[0].rate, msg: 'Berhasill'})  
+                     }
+                 })
+        
+             }
+        }
+
+    ) }
     })
 })
 
