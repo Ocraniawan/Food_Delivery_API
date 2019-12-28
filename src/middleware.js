@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken')
+const mysql = require('./dbconfig')
 
 const auth = (req,res,next)=>{
     if(
@@ -6,16 +7,30 @@ const auth = (req,res,next)=>{
         req.headers['authorization'].startsWith('Bearer')
         ){
             const jwt_token = req.headers['authorization'].substr(7)
+            req.headers.auth_token = jwt_token
+            mysql.execute('SELECT token FROM revoked_token WHERE token=? and is_revoked=1',[jwt_token],(err,result,field)=>{
+                if (err) {
+                    res.send({
+                        success: false,
+                        msg: err
+                    })
+                }else if (result.length > 0) {
+                    res.send({
+                        success: false,
+                        msg : 'Session Expired'
+                    })
+                } else {
             try{
                 const user = jwt.verify(jwt_token,process.env.APP_KEY)
                 next()
             }catch(e){
                 res.send({succes:false,msg:e})
             }
-        }else{
+        }
+    })
+    }else{
             res.send({succes:false,msg:'You Must be Log In First'})
         }
-
 }
 
 const all = (req,res,next)=>{

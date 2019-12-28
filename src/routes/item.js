@@ -37,8 +37,38 @@ router.post('/',auth,restaurant,upload.single('image'),(req,res)=>{
 router.get('/:id_item',auth,restaurant,(req,res)=>{
     const {id_item} = req.params
         mysql.execute(detail,[id_item], (err, result,field)=>{
-            res.send({succes:true,data:result[0]})
+            const category = result[0].categories_name
+            console.log(err)
+            const sql = `SELECT item.id_item, item.item_name, item.price, item.description, item.rating, categories.categories_name, restaurant.restaurant_name, item.image FROM item
+            INNER JOIN restaurant ON item.restaurant_id = restaurant.id_restaurant
+            INNER JOIN categories ON item.categories_id = categories.id_categories
+            WHERE  categories.categories_name LIKE ?`
+            mysql.execute(sql,['%'+category+'%'],(err, result1,field)=>{
+                res.send({success:true, data:result, suggess:result1})
+            })
         })
+})
+
+
+/**SHOWCASE */
+router.get('/showcase/:item_name',auth,restaurant,(req,res)=>{
+    const {item_name} = req.params
+    const sql = `SELECT item.id_item, item.item_name, item.price, item.description, item.rating, categories.categories_name, restaurant.restaurant_name, item.image FROM item
+        INNER JOIN restaurant ON item.restaurant_id = restaurant.id_restaurant
+        INNER JOIN categories ON item.categories_id = categories.id_categories
+        WHERE item_name= ?`
+    mysql.execute(sql,[item_name],(err,result,field)=>{
+        const category = result[0].categories_name
+        const sql = `SELECT item.id_item, item.item_name, item.price, item.description, item.rating, categories.categories_name, restaurant.restaurant_name, item.image FROM item
+        INNER JOIN restaurant ON item.restaurant_id = restaurant.id_restaurant
+        INNER JOIN categories ON item.categories_id = categories.id_categories
+        WHERE  categories.categories_name LIKE ?`
+        mysql.execute(sql,['%'+category+'%'],(err, result1,field)=>{
+            res.send({success:true, data:result, suggess:result1})
+        })
+
+    })
+
 })
 
 /** delete item */

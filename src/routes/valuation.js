@@ -38,19 +38,10 @@ router.post('/',auth,client,(req,res)=>{
 })
 
 
-// router.get('/:id',auth,(req,res)=>{
-//     const {id} = req.params
-
-//     mysql.execute(detail,[id],(err,result,field)=>{
-//         res.send({succes:true,data:result[0]})
-//         console.log(err)
-//     })
-// })
-
-router.get('/:id',auth,(req,res)=>{
-    const {id} = req.params
-    mysql.execute(detail,[id],(err,result,field)=>{
-        res.send({succes:true,data:result[0]})
+router.get('/:valuation_id',auth,(req,res)=>{
+    const {valuation_id} = req.params
+    mysql.execute(detail,[valuation_id],(err,result,field)=>{
+        res.send({succes:true, data:result})
         console.log(err)
     })
 })
