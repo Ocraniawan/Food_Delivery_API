@@ -1,4 +1,4 @@
-# Food_Delivery
+# Food_Delivery_App
  Make Backend Food Delivery App With Express.js 
  <h1 align="center">ExpressJS - Food Delivery</h1>
 
@@ -39,29 +39,35 @@ NODE_ENV=development node server.js
 
 ## End Point
 **1. GET**
-* `/item/`
-* `/notes?search=lorem&sort=ASC&limit=5&page=1`
-* `/note/:id` (Get note by id)
-* `/categories`
-* `/categories?search=Diary`
-* `/category/:id` (Get category by id)
+* `/:id`
+* `/restaurant/:id_restaurant`
+* `/:`
+
 
 
 **2. POST**
-*``
-* `/note`
-    * ``` { "title": "Party", "note": "Herman's Party at 19.00", "category": 1 } ```
+* `/login`
 
-* `/category`
-    * ``` { "categoryName": "Category6" } ```
+* `/logout`
 
-**3. PATCH**
+* `/`
+
+* `/register`
+
+* `/registerest`
+
+* `/restaurant/`
+
+* 
+
+
+**3. PUT**
+* `/:id` (Edit User Account)
+* `/restaurant/:id_restaurant`
 * `/note/:id` (Update note by id)
-   * ``` { "title": "Party", "note": "Herman's Party at 18.00", "category": 2 } ```
-* `/category/:id` (Update category by id)
-   * ``` { "categoryName": "Category8" } ```
+   * ``` { "name": "arka", "username": "Demy", "password": "arkademy", "role_id": 3 } ```
+
 
 **4. DELETE**
-* `/note/:id` (Delete note by id)
-* `/category/:id` (Delete category by id)
-
+* `/:id` (Delete User Account)
+* `/restaurant/:id_restaurant` (Delete Restaurant)
