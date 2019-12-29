@@ -57,7 +57,7 @@ router.put('/logout', auth,(req,res)=>{
 })
 
 
-/*tambah data*/
+/*Add User*/
 router.post('/',auth,admin,(req,res)=>{
     const {name, username, password, role_id} = req.body
     const enc_pass = bcrypt.hashSync(password)
@@ -101,7 +101,7 @@ router.post('/registerest',(req,res)=>{
     })
 })
 
-/* mengambil data */
+/* detail user */
 router.get('/:id',auth,admin,(req,res)=>{
     const {id} = req.params
 

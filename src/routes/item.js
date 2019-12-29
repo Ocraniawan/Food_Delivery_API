@@ -17,7 +17,7 @@ const storage = multer.diskStorage({destination: function(req,file,cb){
 
 const upload = multer ({storage:storage})
 
-/*tambah item*/
+/*ADD item*/
 router.post('/',auth,restaurant,upload.single('image'),(req,res)=>{
     const image = (req.file.originalname)
     const {item_name,categories_id,restaurant_id,price,description} = req.body
@@ -34,7 +34,7 @@ router.post('/',auth,restaurant,upload.single('image'),(req,res)=>{
 })
 
 /* detail item */
-router.get('/:id_item',auth,restaurant,(req,res)=>{
+router.get('/:id_item',auth,(req,res)=>{
     const {id_item} = req.params
         mysql.execute(detail,[id_item], (err, result,field)=>{
             const category = result[0].categories_name
@@ -51,7 +51,7 @@ router.get('/:id_item',auth,restaurant,(req,res)=>{
 
 
 /**SHOWCASE */
-router.get('/showcase/:item_name',auth,restaurant,(req,res)=>{
+router.get('/showcase/:item_name',auth,(req,res)=>{
     const {item_name} = req.params
     const sql = `SELECT item.id_item, item.item_name, item.price, item.description, item.rating, categories.categories_name, restaurant.restaurant_name, item.image FROM item
         INNER JOIN restaurant ON item.restaurant_id = restaurant.id_restaurant
@@ -83,10 +83,10 @@ router.delete('/:id_item',auth,restaurant,(req,res)=>{
 router.put('/:id_item',auth,restaurant,upload.single('image'),(req,res)=>{
     const {id_item} = req.params
     const image = (req.file.originalname)
-    const{item_name,categories_id,restaurant_id,price,description} = req.body
+    const{item_name,categories_id,price,description} = req.body
     const updated_on = new Date()
     mysql.execute(
-        edit, [item_name,categories_id,restaurant_id,price,description,image,updated_on,id_item],(err,result,field)=>{
+        edit, [item_name,categories_id,price,description,image,updated_on,id_item],(err,result,field)=>{
             res.send({succes:true,data:result})
             console.log(err)
         }

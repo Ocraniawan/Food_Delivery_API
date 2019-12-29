@@ -12,6 +12,7 @@ router.get('/',(req,res)=>{
         const sql = `SELECT * FROM item WHERE item_name LIKE '%${name}%' `
         mysql.execute(sql,[],(err,result,field)=>{
             res.send({succes:true, data:result})
+            console.log(err)
         })
     }else if(price){
         const sql = `SELECT * FROM item WHERE price = '${price}'`
@@ -23,6 +24,12 @@ router.get('/',(req,res)=>{
         const sql = `SELECT * FROM item WHERE rating >= '${rating}'`
         mysql.execute(sql,[],(err,result,field)=>{
             res.send({succes:true, data:result})
+        })
+    }else if(nameprice){
+        const sql = `SELECT * FROM item WHERE item_name LIKE '%${name}%' AND price = '${price}'`
+        mysql.execute(sql,[],(err,result,field)=>{
+            res.send({succes:true, data:result})
+            console.log(err)
         })
     }else {
         res.send({
@@ -144,6 +151,9 @@ router.get('/page', (req,res)=>{
     }
 })
 
+
+/**SEARCH SORT AND PAGINATION */
+router.get('/')
 
 
 module.exports = router

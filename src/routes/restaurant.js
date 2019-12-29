@@ -5,7 +5,7 @@ const mysql = require('../dbconfig')
 const {auth, admin} = require('../middleware')
 const {detail,add,dlt,edit}= require('../model/restaurant')
 
-/**Upload Foto */
+/**Upload Foto/File */
 const multer = require('multer')
 const storage = multer.diskStorage({destination: function(req,file,cb){
     cb(null, './src/images/restaurant')
@@ -23,7 +23,7 @@ const fileFilter = (req,file,cb)=> {
 }
 const upload = multer({storage:storage, fileFilter:fileFilter})
 
-/*tambah data*/
+/*add restaurant*/
 router.post('/',auth,admin,upload.single('image'),(req,res)=>{
     const image = (req.file.originalname)
     const {restaurant_name,description,longitude,latitude, user_id} = req.body
@@ -39,7 +39,7 @@ router.post('/',auth,admin,upload.single('image'),(req,res)=>{
 })
 
 
-/* detail data */
+/* detail restaurant */
 router.get('/:id_restaurant',auth,admin,(req,res)=>{
     const {id_restaurant} = req.params
         mysql.execute(detail,[id_restaurant], (err, result,field)=>{

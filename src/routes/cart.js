@@ -6,7 +6,7 @@ const {auth, client} = require('../middleware')
 const {add,edit,detail,dlt} = require('../model/cart')
 
 
-/**TAMBAH CART */
+/**ADD TO CART */
 router.post('/',auth,client,(req,res)=>{
     const {item_id,user_id,restaurant_id} =  req.body
     const created_on = new Date()

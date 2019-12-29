@@ -39,7 +39,7 @@ NODE_ENV=development node server.js
 
 ## End Point
 **1. GET**
-* `/notes`
+* `/item/`
 * `/notes?search=lorem&sort=ASC&limit=5&page=1`
 * `/note/:id` (Get note by id)
 * `/categories`
@@ -48,6 +48,7 @@ NODE_ENV=development node server.js
 
 
 **2. POST**
+*``
 * `/note`
     * ``` { "title": "Party", "note": "Herman's Party at 19.00", "category": 1 } ```
 
