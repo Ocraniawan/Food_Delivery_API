@@ -4,7 +4,7 @@ const router = require('express').Router()
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const mysql = require('../dbconfig')
-const {auth, admin,} = require('../middleware')
+const {auth, admin, restaurant, client} = require('../middleware')
 const {login,detail,add,dlt,edit}= require('../model/user')
 
 
@@ -74,7 +74,7 @@ router.post('/',auth,admin,(req,res)=>{
 })
 
 /**CLIENT REGISTER */
-router.post('/register',(req,res)=>{
+router.post('/registuser',client,(req,res)=>{
     const {name, username, password} = req.body
     const role_id = 3
     const enc_pass = bcrypt.hashSync(password)
@@ -88,7 +88,7 @@ router.post('/register',(req,res)=>{
 })
 
 /**RESTAURANT REGISTER */
-router.post('/registerest',(req,res)=>{
+router.post('/registrest',restaurant,(req,res)=>{
     const {name, username, password} = req.body
     const role_id = 2
     const enc_pass = bcrypt.hashSync(password)

@@ -22,7 +22,7 @@ router.put('/:id_categories',auth,admin_restaurant,(req,res)=>{
     const {id_categories} = req.params
     const {categories_name} = req.body
     const updated_on = new Date()
-    mysql.execute(edit,[categories_name,updated_on,id], (err,result,field)=>{
+    mysql.execute(edit,[categories_name,updated_on,id_categories], (err,result,field)=>{
         res.send({succes:true,data:result})
         console.log(err)
     })
@@ -31,7 +31,7 @@ router.put('/:id_categories',auth,admin_restaurant,(req,res)=>{
 
 /**detail categories */
 router.get('/:id_categories',auth,admin_restaurant,(req,res)=>{
-    const {id} =req.params
+    const {id_categories} =req.params
     mysql.execute(detail,[id_categories], (err,result,field)=>{
         res.send({succes:true,data:result})
     })
@@ -39,7 +39,7 @@ router.get('/:id_categories',auth,admin_restaurant,(req,res)=>{
 
 /**delete categories */
 router.delete('/:id_categories',auth,admin_restaurant,(req,res)=>{
-    const {id} = req.params
+    const {id_categories} = req.params
     mysql.execute(dlt,[id_categories], (err,result,field)=>{
         res.send({success:true,data:result})
     })

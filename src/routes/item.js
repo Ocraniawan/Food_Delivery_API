@@ -73,7 +73,7 @@ router.get('/showcase/:item_name',auth,(req,res)=>{
 
 /** delete item */
 router.delete('/:id_item',auth,restaurant,(req,res)=>{
-    const {id} = req.params
+    const {id_item} = req.params
     mysql.execute(dlt,[id_item], (err,result,field)=>{
         res.send({succes:true,data:result})
     })

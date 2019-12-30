@@ -25,7 +25,7 @@ router.get('/',(req,res)=>{
         mysql.execute(sql,[],(err,result,field)=>{
             res.send({succes:true, data:result})
         })
-    }else if(nameprice){
+    }else if(name&&price){
         const sql = `SELECT * FROM item WHERE item_name LIKE '%${name}%' AND price = '${price}'`
         mysql.execute(sql,[],(err,result,field)=>{
             res.send({succes:true, data:result})
@@ -152,8 +152,20 @@ router.get('/page', (req,res)=>{
 })
 
 
-/**SEARCH SORT AND PAGINATION */
-router.get('/')
+// /**SEARCH AND SORT AND PAGINATION */
+// router.get('/searchsort',(req,res)=>{
+//     const {name}
+// })
 
+
+/**GET ALL DATA */
+router.get('/all',(req,res)=>{
+    const sql = `SELECT item.id_item, restaurant.id_restaurant, categories.id_categories, item.item_name, item.price, item.rating, item.description, restaurant.restaurant_name, categories.categories_name FROM item 
+    INNER JOIN restaurant ON item.restaurant_id = restaurant.id_restaurant
+    INNER JOIN categories ON item.categories_id = categories.id_categories`
+    mysql.execute(sql, [], (err,result, field)=>{
+        res.send(result)
+    })
+})
 
 module.exports = router

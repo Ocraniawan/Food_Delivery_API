@@ -22,6 +22,7 @@ const auth = (req,res,next)=>{
                 } else {
             try{
                 const user = jwt.verify(jwt_token,process.env.APP_KEY)
+                req.auth = user
                 next()
             }catch(e){
                 res.send({succes:false,msg:e})
@@ -33,15 +34,6 @@ const auth = (req,res,next)=>{
         }
 }
 
-const all = (req,res,next)=>{
-    if(
-        req.headers['roles'] === '1' || req.headers['roles'] === '2' || req.headers['roles'] === '3'
-    ){
-        next()
-    }else{
-        res.send({succes:false, msg: 'You are not be able to access this!'})
-    }
-}
 
 const admin = (req,res,next)=>{
     if(
@@ -84,4 +76,4 @@ const admin_restaurant = (req,res,next)=>{
 }
 
 
-module.exports = {auth, all, admin, restaurant, admin_restaurant, client}
+module.exports = {auth, admin, restaurant, admin_restaurant, client}
