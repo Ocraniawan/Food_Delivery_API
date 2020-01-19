@@ -3,7 +3,7 @@ require('dotenv').config()
 const router = require('express').Router()
 const mysql = require('../dbconfig')
 const {auth, admin} = require('../middleware')
-const {detail,add,dlt,edit}= require('../model/restaurant')
+const {detail,add,dlt,edit, all}= require('../model/restaurant')
 
 /**Upload Foto/File */
 const multer = require('multer')
@@ -46,6 +46,29 @@ router.get('/:id_restaurant',auth,admin,(req,res)=>{
             res.send({succes:true,data:result[0]})
         })
 })
+
+/* detail all restaurant */
+router.get('/',(req,res)=>{
+    
+        mysql.execute(all,[], (err, result,field)=>{
+            res.send({data:result})
+        })
+})
+
+
+router.get('/menu/:id_restaurant',(req,res)=>{
+    const {id_restaurant} =req.params
+    const sql = `SELECT item.id_item, restaurant.id_restaurant, categories.id_categories, item.item_name, item.image, item.price, item.rating, item.description, restaurant.restaurant_name, categories.categories_name FROM item 
+    INNER JOIN restaurant ON item.restaurant_id = restaurant.id_restaurant
+    INNER JOIN categories ON item.categories_id = categories.id_categories WHERE restaurant.id_restaurant=?`
+    mysql.execute(sql,[id_restaurant], (err,result,field)=>{
+        res.send({succes:true, data:result})
+        console.log(err)
+    })
+})
+
+
+
 
 /** delete restaurant */
 router.delete('/:id_restaurant',auth,admin,(req,res)=>{

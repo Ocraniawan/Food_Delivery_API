@@ -42,6 +42,8 @@ NODE_ENV=development node server.js
 * `/:id`
 * `/restaurant/:id_restaurant`
 * `/:`
+* `/item/:id:item`
+* ``
 
 
 
@@ -58,16 +60,22 @@ NODE_ENV=development node server.js
 
 * `/restaurant/`
 
-* 
+*  `/item/`
 
 
 **3. PUT**
 * `/:id` (Edit User Account)
+  * ``` { "name": "arka", "username": "Demy", "password": "arkademy", "role_id": 3 } ```
+
+* `/item/:id_item` (Edit item)
+    
+
 * `/restaurant/:id_restaurant`
-* `/note/:id` (Update note by id)
-   * ``` { "name": "arka", "username": "Demy", "password": "arkademy", "role_id": 3 } ```
+
+ 
 
 
 **4. DELETE**
 * `/:id` (Delete User Account)
+* `/item/:id_item` (Delete Item)
 * `/restaurant/:id_restaurant` (Delete Restaurant)

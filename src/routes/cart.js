@@ -7,13 +7,13 @@ const {add,edit,detail,dlt} = require('../model/cart')
 
 
 /**ADD TO CART */
-router.post('/',auth,client,(req,res)=>{
-    const {item_id,user_id,restaurant_id} =  req.body
+router.post('/',(req,res)=>{
+    const {item_id,user_id,quantity} =  req.body
     const created_on = new Date()
     const updated_on = new Date()
-    mysql.execute(add,[item_id,user_id,restaurant_id,created_on,updated_on],
+    mysql.execute(add,[item_id,user_id,quantity,created_on,updated_on],
             (err,result,field)=>{
-                res.send({succes:true,data:result})
+                res.send({succes:true, data:result})
                 console.log(err)
             }
         )
@@ -33,24 +33,25 @@ router.put('/:id_carts',auth,client,(req,res)=>{
 })
 
 /**DETAIL CART */
-router.get('/:id_carts',auth,client,(req,res)=>{
-    const {id_carts} = req.params
-    mysql.execute(detail,[id_carts],(err,result,field)=>{
-        res.send({succes:true,data:result[0]})
+router.get('/:id',auth,(req,res)=>{
+    const {id} = req.params
+    mysql.execute(detail,[id],(err,result,field)=>{
+        res.send({succes:true,data:result})
         console.log(err)
     })
 })
 
 
 /**DELETE CART */
-router.delete('/:id',auth,client,(req,res)=>{
-    const {id_carts} = req.params
-    mysql.execute(dlt,[id_carts],(err,result,field)=>{
-        res.send({succes:true,data:result})
+router.delete('/:id',(req,res)=>{
+    const {id} = req.params
+    mysql.execute(dlt,[id],(err,result,field)=>{
+        res.send({succes:true, data:result})
+        console.log(err)
     })
 })
 
-
+ 
 
 
 module.exports = router

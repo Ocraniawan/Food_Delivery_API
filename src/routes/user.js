@@ -15,7 +15,9 @@ router.post('/login',(req,res)=>{
     mysql.execute(login,[username],(err,result,field)=>{
         if(result.length>0){
             if(bcrypt.compareSync(password,result[0].password)){
-            const auth = jwt.sign({username},process.env.APP_KEY)
+            const id_user = result[0].id
+            const roles = result[0].role_id
+            const auth = jwt.sign({username, id_user, roles},process.env.APP_KEY)
             const token = auth
             const is_revoked = 0
             const created_on = new Date()
@@ -44,18 +46,30 @@ router.post('/login',(req,res)=>{
 
 
 /**Log Out */
-router.put('/logout', auth,(req,res)=>{
+router.get('/logout', auth,(req,res)=>{
     const token = req.headers.auth_token
-    const is_revoked = 1
     const sql = 'UPDATE revoked_token SET is_revoked=? WHERE token=?'
-    mysql.execute(sql, [is_revoked, token],(err,result,field)=>{
+    mysql.execute(sql, [1, token],(err,result,field)=>{
         res.send({ 
-            succsess: true, data:result, msg: "Log Out Success"
+            success: true, data:result, msg: "Log Out Success"
         })
         console.log(err)
     })
 })
 
+/**CLIENT REGISTER */
+router.post('/registuser',(req,res)=>{
+    const {name, username, password} = req.body
+    const role_id = 3
+    const enc_pass = bcrypt.hashSync(password)
+    const created_on = new Date()
+    const updated_on = new Date()
+
+    const sql = 'INSERT INTO user(name, username, password, role_id, created_on, updated_on) VALUES (?,?,?,?,?,?)'
+    mysql.execute(sql,[name,username,enc_pass,role_id,created_on,updated_on], (err,result)=>{
+        res.send({succsess:true, data:result})
+    })
+})
 
 /*Add User*/
 router.post('/',auth,admin,(req,res)=>{
@@ -73,19 +87,6 @@ router.post('/',auth,admin,(req,res)=>{
     )
 })
 
-/**CLIENT REGISTER */
-router.post('/registuser',client,(req,res)=>{
-    const {name, username, password} = req.body
-    const role_id = 3
-    const enc_pass = bcrypt.hashSync(password)
-    const created_on = new Date()
-    const updated_on = new Date()
-
-    const sql = 'INSERT INTO user(name, username, password, role_id, created_on, updated_on) VALUES (?,?,?,?,?,?)'
-    mysql.execute(sql,[name,username,enc_pass,role_id,created_on,updated_on], (err,result)=>{
-        res.send({succsess:true, data:result})
-    })
-})
 
 /**RESTAURANT REGISTER */
 router.post('/registrest',restaurant,(req,res)=>{

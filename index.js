@@ -16,9 +16,12 @@ const search = require('./src/routes/search')
 const app = express()
 
 app.use(bodyParser.urlencoded({extended:false}))
+app.use('/src/images',express.static('src/images/item'))
+app.use('/src/images',express.static('src/images/restaurant'))
+app.use('/src/images',express.static('src/images/categories'))
 
 app.use(bodyParser.json())
-
+app.use(cors())
 app.use('/user',user)
 app.use('/restaurant',restaurant)
 app.use('/item',item)
@@ -26,6 +29,7 @@ app.use('/cart',cart)
 app.use('/categories',categories)
 app.use('/valuation',valuation)
 app.use('/search',search)
+
 
 
 const port = process.env.APP_PORT
