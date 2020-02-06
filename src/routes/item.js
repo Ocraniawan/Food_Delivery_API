@@ -69,7 +69,7 @@ router.get('/', (req, res) => {
                 count++
             }
             else {
-                where += ` item.${key} LIKE '%${query.search[key]}%' AND`
+                where += ` item.${`key`} LIKE '%${query.search[key]}%' AND`
                 full_url += `search[${key}]=${query.search[key]}&`
                 count++
             }

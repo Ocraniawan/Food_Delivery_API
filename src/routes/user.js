@@ -46,7 +46,7 @@ router.post('/login',(req,res)=>{
 
 
 /**Log Out */
-router.get('/logout', auth,(req,res)=>{
+router.get('/logout',auth,(req,res)=>{
     const token = req.headers.auth_token
     const sql = 'UPDATE revoked_token SET is_revoked=? WHERE token=?'
     mysql.execute(sql, [1, token],(err,result,field)=>{
@@ -59,17 +59,40 @@ router.get('/logout', auth,(req,res)=>{
 
 /**CLIENT REGISTER */
 router.post('/registuser',(req,res)=>{
-    const {name, username, password} = req.body
+    const {name, username, email, password} = req.body
     const role_id = 3
     const enc_pass = bcrypt.hashSync(password)
     const created_on = new Date()
     const updated_on = new Date()
 
-    const sql = 'INSERT INTO user(name, username, password, role_id, created_on, updated_on) VALUES (?,?,?,?,?,?)'
-    mysql.execute(sql,[name,username,enc_pass,role_id,created_on,updated_on], (err,result)=>{
-        res.send({succsess:true, data:result})
+    const check = 'SELECT * FROM user WHERE username=? OR email=?'
+    mysql.execute(check, [username, email], (err1, res1, field1) => {
+        if (err1) {
+            console.log(err1)
+            res.send({
+                status: 400,
+                msg: err1,
+            })
+        } else if (res1.length === 0) {
+            const sql = 'INSERT INTO user(name, username, email, password, role_id, created_on, updated_on) VALUES (?,?,?,?,?,?,?)'
+            mysql.execute(sql, [name,username,email,enc_pass,role_id,created_on,updated_on], (err, result) => {
+                if (err) {
+                    console.log(err)
+                } else {
+                    res.send({ succsess: true, data: result })
+                }
+            })
+        }
+        else {
+            res.send({
+                status: 400,
+                msg: 'Username/email already used.',
+            })
+        }
     })
 })
+
+// })
 
 /*Add User*/
 router.post('/',auth,admin,(req,res)=>{
