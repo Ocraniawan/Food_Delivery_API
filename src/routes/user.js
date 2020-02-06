@@ -59,13 +59,13 @@ router.get('/logout',auth,(req,res)=>{
 
 /**CLIENT REGISTER */
 router.post('/registuser',(req,res)=>{
-    const {name, username, email, password} = req.body
+    const {name, username, password} = req.body
     const role_id = 3
     const enc_pass = bcrypt.hashSync(password)
     const created_on = new Date()
     const updated_on = new Date()
 
-    const check = 'SELECT * FROM user WHERE username=? OR email=?'
+    const check = 'SELECT * FROM user WHERE username=?'
     mysql.execute(check, [username, email], (err1, res1, field1) => {
         if (err1) {
             console.log(err1)
@@ -74,7 +74,7 @@ router.post('/registuser',(req,res)=>{
                 msg: err1,
             })
         } else if (res1.length === 0) {
-            const sql = 'INSERT INTO user(name, username, email, password, role_id, created_on, updated_on) VALUES (?,?,?,?,?,?,?)'
+            const sql = 'INSERT INTO user(name, username, password, role_id, created_on, updated_on) VALUES (?,?,?,?,?,?,?)'
             mysql.execute(sql, [name,username,email,enc_pass,role_id,created_on,updated_on], (err, result) => {
                 if (err) {
                     console.log(err)
@@ -86,13 +86,23 @@ router.post('/registuser',(req,res)=>{
         else {
             res.send({
                 status: 400,
-                msg: 'Username/email already used.',
+                msg: 'Username already used.',
             })
         }
     })
 })
 
 // })
+
+router.put('/forgotpassword', (req, res) => {
+    const {username, password} = req.body
+    const updated_on = new Date()
+    const enc_pass = bcrypt.hashSync(password)
+    const sql = `UPDATE user SET password = ?, updated_on = ? where username = ?`
+    mysql.execute(sql, [enc_pass, username, updated_on], (err, result, field) => {
+        res.send({succcess: true, data: result})
+    })
+})
 
 /*Add User*/
 router.post('/',auth,admin,(req,res)=>{

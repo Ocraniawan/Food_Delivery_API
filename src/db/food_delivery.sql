@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 06, 2020 at 11:54 AM
+-- Generation Time: Feb 06, 2020 at 12:44 PM
 -- Server version: 10.3.16-MariaDB
 -- PHP Version: 7.3.6
 
@@ -286,7 +286,6 @@ CREATE TABLE `user` (
   `id` int(11) NOT NULL,
   `name` varchar(40) NOT NULL,
   `username` varchar(40) NOT NULL,
-  `email` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,
   `role_id` int(11) NOT NULL,
   `created_on` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -297,24 +296,24 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `name`, `username`, `email`, `password`, `role_id`, `created_on`, `updated_on`) VALUES
-(1, 'admin', 'admin', '', '$2a$10$8hTRyHWuOsIfmi1JVhniYuXTQ9wXJFkm1JrfEQz8IL.ErGMTtm4E2', 1, '2019-12-28 07:03:34', '2019-12-28 07:03:34'),
-(2, 'Ikan Darat', 'ikandarat', '', '$2a$10$3zZz2q2Rb8AZ94x15ztG/uxH29LQ1aApg84xsdNMzLdoAu9099Wr2', 2, '2020-01-04 04:10:05', '2020-01-04 04:10:05'),
-(3, 'myrestaurant', 'myresto', '', '$2a$10$U0YEv7TOmLwIfDwshZmjHebzOu8L0Y/a00GPe.uZ.sI9xs9WO5lbe', 2, '2019-12-24 12:00:32', '2019-12-30 02:35:27'),
-(4, 'Mie Mie', 'mymie', '', '$2a$10$2uYJvxlQDrz4FOCkZm7Auuig5XnQN/LkoxrZRKovSC7P8bAwfy95y', 2, '2020-01-04 04:10:53', '2020-01-04 04:10:53'),
-(5, 'arkademy', 'arkademy', '', '$2a$10$mlMktd3hdronWFlGpQ9vgeKvYI6MXaIA5EmaDh8Ed9xU5E15Ug.vy', 3, '2019-12-24 13:54:38', '2019-12-24 13:54:38'),
-(6, 'arka', 'demy', '', '$2a$10$GgU9mswchqdbPiUvh9DakeLfiBE8Bx79rzFYrbmmBfAzm7Vvv7uRe', 3, '2019-12-24 14:11:20', '2019-12-24 14:36:35'),
-(7, 'admin', 'admina', '', '$2a$10$g/m0SY1qfFEZ9LeRhbvbZuZCsxuUTVsXkHJ/DFyv11.7wefGfb40y', 1, '2019-12-25 05:24:04', '2019-12-25 05:24:04'),
-(8, 'My Coffe', 'coffeku', '', '$2a$10$AfLfDnI00PJ8Mho8/eHJ6OU2hALvhQZC.TqkStSMabXL2H0wxarRC', 2, '2020-01-04 04:11:55', '2020-01-04 04:11:55'),
-(9, 'arkademy', 'arkaresto', '', '$2a$10$XXi.ehBZQbNdfna5IGXlLe/PZi5aN4QlDzWlBdQxB9uYT8.bWDLoy', 2, '2019-12-28 07:00:59', '2019-12-28 07:00:59'),
-(10, 'client', 'client', '', '$2a$10$/UvO0L69ymqdueAr1Gy72OtyM84f7aIomV91NjJaTGX6Twl94SVmG', 3, '2019-12-30 02:42:19', '2019-12-30 02:42:19'),
-(12, 'Jus Segar', 'myjuice', '', '$2a$10$7p3QRJD7TgNFNXL8wTvnJ.Hit4eaftwKZFSP7WG68wRy8ba2xO1j.', 2, '2020-01-04 04:12:55', '2020-01-04 04:12:55'),
-(13, 'Bebekta', 'bebeb', '', '$2a$10$FeQv7zANy2JEnkfHf1o9He8RJ7pIUSlL6LLIAG.aXRPEO343ttXqC', 2, '2020-01-04 04:16:27', '2020-01-04 04:16:27'),
-(17, 'FFF', 'FFF', '', '$2a$10$WI3A5VMBucuBwaUpU92gguZX6Ilz0/rx0SFj/U48x2xWVuckpCh02', 3, '2020-01-05 18:30:04', '2020-01-05 18:30:04'),
-(18, 'arkademian', 'arkademian', '', '$2a$10$vs3cN4x0ukJ12D9vjv0Kuu.uhNzFVg4X3nPqrgg.PisRCkjzZHXo.', 3, '2020-01-06 03:42:39', '2020-01-06 03:42:39'),
-(19, 'abcd', 'abcd', '', '$2a$10$65myrVjxI7Ic5EuRAHHyCeuZFyb1kpn3LJoc4liz1ZpjOn9E.DunO', 3, '2020-01-12 08:01:53', '2020-01-12 08:01:53'),
-(20, 'Ocraniawan', 'ocra', '', '$2a$10$R1EsBtCq2XeqDidWHsOFa.aWwgRyk3u/hBJdOyvP3J4beiXydyI1q', 3, '2020-01-13 04:25:49', '2020-01-13 04:25:49'),
-(21, 'Ocraniawan Patattan', 'ocraniawanp', '', '$2a$10$sRGhTNlZj7yH53S1m2lLI.yBOfq5KrLIqO6YHqOQen3UHQ/x1WnRq', 3, '2020-02-06 06:42:43', '2020-02-06 06:42:43');
+INSERT INTO `user` (`id`, `name`, `username`, `password`, `role_id`, `created_on`, `updated_on`) VALUES
+(1, 'admin', 'admin', '$2a$10$G0muo6G.EjKyi9ZLOmqXX.KbgdXWLzZcMSSz28d/mE57z55A3fZtC', 1, '2019-12-28 07:03:34', '2019-12-28 07:03:34'),
+(2, 'Ikan Darat', 'ikandarat', '$2a$10$3zZz2q2Rb8AZ94x15ztG/uxH29LQ1aApg84xsdNMzLdoAu9099Wr2', 2, '2020-01-04 04:10:05', '2020-01-04 04:10:05'),
+(3, 'myrestaurant', 'myresto', '$2a$10$U0YEv7TOmLwIfDwshZmjHebzOu8L0Y/a00GPe.uZ.sI9xs9WO5lbe', 2, '2019-12-24 12:00:32', '2019-12-30 02:35:27'),
+(4, 'Mie Mie', 'mymie', '$2a$10$2uYJvxlQDrz4FOCkZm7Auuig5XnQN/LkoxrZRKovSC7P8bAwfy95y', 2, '2020-01-04 04:10:53', '2020-01-04 04:10:53'),
+(5, 'arkademy', 'arkademy', '$2a$10$mlMktd3hdronWFlGpQ9vgeKvYI6MXaIA5EmaDh8Ed9xU5E15Ug.vy', 3, '2019-12-24 13:54:38', '2019-12-24 13:54:38'),
+(6, 'arka', 'demy', '$2a$10$GgU9mswchqdbPiUvh9DakeLfiBE8Bx79rzFYrbmmBfAzm7Vvv7uRe', 3, '2019-12-24 14:11:20', '2019-12-24 14:36:35'),
+(7, 'admin', 'admina', '$2a$10$g/m0SY1qfFEZ9LeRhbvbZuZCsxuUTVsXkHJ/DFyv11.7wefGfb40y', 1, '2019-12-25 05:24:04', '2019-12-25 05:24:04'),
+(8, 'My Coffe', 'coffeku', '$2a$10$AfLfDnI00PJ8Mho8/eHJ6OU2hALvhQZC.TqkStSMabXL2H0wxarRC', 2, '2020-01-04 04:11:55', '2020-01-04 04:11:55'),
+(9, 'arkademy', 'arkaresto', '$2a$10$XXi.ehBZQbNdfna5IGXlLe/PZi5aN4QlDzWlBdQxB9uYT8.bWDLoy', 2, '2019-12-28 07:00:59', '2019-12-28 07:00:59'),
+(10, 'client', 'client', '$2a$10$/UvO0L69ymqdueAr1Gy72OtyM84f7aIomV91NjJaTGX6Twl94SVmG', 3, '2019-12-30 02:42:19', '2019-12-30 02:42:19'),
+(12, 'Jus Segar', 'myjuice', '$2a$10$7p3QRJD7TgNFNXL8wTvnJ.Hit4eaftwKZFSP7WG68wRy8ba2xO1j.', 2, '2020-01-04 04:12:55', '2020-01-04 04:12:55'),
+(13, 'Bebekta', 'bebeb', '$2a$10$FeQv7zANy2JEnkfHf1o9He8RJ7pIUSlL6LLIAG.aXRPEO343ttXqC', 2, '2020-01-04 04:16:27', '2020-01-04 04:16:27'),
+(17, 'FFF', 'FFF', '$2a$10$WI3A5VMBucuBwaUpU92gguZX6Ilz0/rx0SFj/U48x2xWVuckpCh02', 3, '2020-01-05 18:30:04', '2020-01-05 18:30:04'),
+(18, 'arkademian', 'arkademian', '$2a$10$vs3cN4x0ukJ12D9vjv0Kuu.uhNzFVg4X3nPqrgg.PisRCkjzZHXo.', 3, '2020-01-06 03:42:39', '2020-01-06 03:42:39'),
+(19, 'abcd', 'abcd', '$2a$10$65myrVjxI7Ic5EuRAHHyCeuZFyb1kpn3LJoc4liz1ZpjOn9E.DunO', 3, '2020-01-12 08:01:53', '2020-01-12 08:01:53'),
+(20, 'Ocraniawan', 'ocra', '$2a$10$R1EsBtCq2XeqDidWHsOFa.aWwgRyk3u/hBJdOyvP3J4beiXydyI1q', 3, '2020-01-13 04:25:49', '2020-01-13 04:25:49'),
+(21, 'Ocraniawan Patattan', 'ocraniawanp', '$2a$10$sRGhTNlZj7yH53S1m2lLI.yBOfq5KrLIqO6YHqOQen3UHQ/x1WnRq', 3, '2020-02-06 06:42:43', '2020-02-06 06:42:43');
 
 -- --------------------------------------------------------
 
