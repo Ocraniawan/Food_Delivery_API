@@ -40,10 +40,17 @@ NODE_ENV=development node server.js
 ## End Point
 **1. GET**
 * `/:id`
+* `/restaurant/`
 * `/restaurant/:id_restaurant`
-* `/:`
-* `/item/:id:item`
-* ``
+* `/item/` (Get all Item with pagination)
+* `/item/:id:item` (get detail item by id)
+* `/carts/:id` 
+* `/valuation/:item_id`
+* `/categories/` (Get All Categories)
+* `/categories/:id_categories` (Get Categories by id)
+* `/categories/detail/id_categories` (Show all item with categories id)
+* `/item/search` (Search Item By name or price or rating)
+* `/restaurant/menu/id_restaurant` (show all menu/item by id restaurant)
 
 
 
@@ -52,15 +59,19 @@ NODE_ENV=development node server.js
 
 * `/logout`
 
-* `/`
-
 * `/register`
 
 * `/registerest`
 
 * `/restaurant/`
 
-*  `/item/`
+*  `/item/` (Add Item)
+
+* `/carts/` (Add to Cart)
+
+* `/valuation/` (Add Review and Rating)
+
+* `/categories/` (Add Categories)
 
 
 **3. PUT**
@@ -69,8 +80,13 @@ NODE_ENV=development node server.js
 
 * `/item/:id_item` (Edit item)
     
-
 * `/restaurant/:id_restaurant`
+
+* `/carts/:id_carts`
+
+* `/carts/checkout/:id_carts` (CheckOut item)
+
+* `/categories/id_categories` (Edit Categories)
 
  
 
@@ -79,3 +95,5 @@ NODE_ENV=development node server.js
 * `/:id` (Delete User Account)
 * `/item/:id_item` (Delete Item)
 * `/restaurant/:id_restaurant` (Delete Restaurant)
+* `/carts/:id` (Delete Item On Cart)
+* `/categories/:id_categories` (Delete Categories)

@@ -66,7 +66,7 @@ router.post('/registuser',(req,res)=>{
     const updated_on = new Date()
 
     const check = 'SELECT * FROM user WHERE username=?'
-    mysql.execute(check, [username, email], (err1, res1, field1) => {
+    mysql.execute(check, [username], (err1, res1, field1) => {
         if (err1) {
             console.log(err1)
             res.send({
@@ -74,8 +74,8 @@ router.post('/registuser',(req,res)=>{
                 msg: err1,
             })
         } else if (res1.length === 0) {
-            const sql = 'INSERT INTO user(name, username, password, role_id, created_on, updated_on) VALUES (?,?,?,?,?,?,?)'
-            mysql.execute(sql, [name,username,email,enc_pass,role_id,created_on,updated_on], (err, result) => {
+            const sql = 'INSERT INTO user(name, username, password, role_id, created_on, updated_on) VALUES (?,?,?,?,?,?)'
+            mysql.execute(sql, [name,username,enc_pass,role_id,created_on,updated_on], (err, result) => {
                 if (err) {
                     console.log(err)
                 } else {
