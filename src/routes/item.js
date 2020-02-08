@@ -203,54 +203,54 @@ router.get('/', (req, res) => {
 
 /**------------------------------------------------------------ */
 
-router.get(["", "/search"], (req, res) => {
-    let { page, order, name, price, rating, limit, byRestaurant, asc } = req.query;
+// router.get(["", "/search"], (req, res) => {
+//     let { page, order, name, price, rating, limit, byRestaurant, asc } = req.query;
   
-    name = name ? ` item.item_name LIKE "%${name}%" ` : `item.item_name LIKE "%%"`;
-    price = price ? ` AND item.price= "${price}"` : "";
-    rating = rating ? ` AND item.rating=ROUND(${rating},0) ` : "";
-    byRestaurant = byRestaurant ? ` AND id_restaurant=${byRestaurant} ` : "";
-    order = order ? "item." + order : "id_restaurant";
-    // const AND = condition => (condition ? "" : "");
-    let where = name || price || rating ? "WHERE" : "";
-    page = parseInt(page) || 1;
-    limit = parseInt(limit) || 10;
-    asc = asc || "ASC";
+//     name = name ? ` item.item_name LIKE "%${name}%" ` : `item.item_name LIKE "%%"`;
+//     price = price ? ` AND item.price= "${price}"` : "";
+//     rating = rating ? ` AND item.rating=ROUND(${rating},0) ` : "";
+//     byRestaurant = byRestaurant ? ` AND id_restaurant=${byRestaurant} ` : "";
+//     order = order ? "item." + order : "id_restaurant";
+//     // const AND = condition => (condition ? "" : "");
+//     let where = name || price || rating ? "WHERE" : "";
+//     page = parseInt(page) || 1;
+//     limit = parseInt(limit) || 10;
+//     asc = asc || "ASC";
 
-    // "SELECT * FROM item WHERE id_restaurant=?";
-  const sql = `SELECT item.id_item, item.item_name, item.price, item.description, item.rating, categories.categories_name, restaurant.restaurant_name, item.image FROM item
-        INNER JOIN restaurant ON item.restaurant_id = restaurant.id_restaurant
-        INNER JOIN categories ON item.categories_id = categories.id_categories
-  ${where} ${name} ${price} ${rating} ${byRestaurant}
-  ORDER BY ${order} ${asc} LIMIT ${limit} OFFSET ${page * limit - limit}`;
+//     // "SELECT * FROM item WHERE id_restaurant=?";
+//   const sql = `SELECT item.id_item, item.item_name, item.price, item.description, item.rating, categories.categories_name, restaurant.restaurant_name, item.image FROM item
+//         INNER JOIN restaurant ON item.restaurant_id = restaurant.id_restaurant
+//         INNER JOIN categories ON item.categories_id = categories.id_categories
+//   ${where} ${name} ${price} ${rating} ${byRestaurant}
+//   ORDER BY ${order} ${asc} LIMIT ${limit} OFFSET ${page * limit - limit}`;
 
-  const pagequery = { current_page: page, limit, 
-    link:req.get('host')+req.originalUrl, query: req.query }
+//   const pagequery = { current_page: page, limit, 
+//     link:req.get('host')+req.originalUrl, query: req.query }
 
-  mysql.execute(sql, [], (err, result,field)=>{
-    res.send({success:true, data:result})
-    console.log(err)
-  });
-});
+//   mysql.execute(sql, [], (err, result,field)=>{
+//     res.send({success:true, data:result})
+//     console.log(err)
+//   });
+// });
 
 
 /**SEARCH */
 router.get('/search',(req,res)=>{
     const {name,price,rating} = req.query
     if(name){
-        const sql = `SELECT * FROM item WHERE item_name LIKE '%${name}%' `
+        const sql = `SELECT * FROM item WHERE item_name LIKE '%${name}%' order by item_name ASC`
         mysql.execute(sql,[],(err,result,field)=>{
             res.send({succes:true, data:result})
             console.log(err)
         })
     }else if(price){
-        const sql = `SELECT * FROM item WHERE price = '${price}'`
+        const sql = `SELECT * FROM item WHERE price = '${price}' order by item_name ASC`
         mysql.execute(sql,[],(err,result,field)=>{
             res.send({succes:true, data:result})
             console.log(err)
         })
     }else if(rating){
-        const sql = `SELECT * FROM item WHERE rating >= '${rating}'`
+        const sql = `SELECT * FROM item WHERE rating >= '${rating}' order by item_name ASC`
         mysql.execute(sql,[],(err,result,field)=>{
             res.send({succes:true, data:result})
         })

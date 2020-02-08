@@ -29,7 +29,6 @@ router.post('/',(req,res)=>{
                                 res.send({success: true, result2})
                             } )
                         }
-                        
                     })
                 }
             })
