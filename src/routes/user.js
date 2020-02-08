@@ -136,7 +136,7 @@ router.post('/registrest',restaurant,(req,res)=>{
 })
 
 /* detail user */
-router.get('/:id',auth,admin,(req,res)=>{
+router.get('/:id',(req,res)=>{
     const {id} = req.params
 
         mysql.execute(detail,[id], (err, result,field)=>{
